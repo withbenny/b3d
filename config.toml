@@ -1,0 +1,11 @@
+[B3D]
+dataset_name = "CIFAR10"
+model_arch = "RESNET18"
+model_path = "./models"
+
+[B3D.Hyperparameters]
+num_iterations = 1000
+batch_size = 128
+k = 50
+lr = 0.05
+sigma = 0.1
