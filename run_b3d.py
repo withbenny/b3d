@@ -9,8 +9,8 @@ Usage
 -----
   python run_b3d.py [options]
 
-  # minimal — use defaults
-  python run_b3d.py --model_dir E:/workspace/hard-label-detection/models/cifar10/target
+  # minimal — use defaults (./models, ./data are symlinked to hard-label-detection)
+  python run_b3d.py
 
   # with CUDA and custom iterations
   python run_b3d.py --model_dir ... --device cuda --iters 1000 --k 50
@@ -34,7 +34,8 @@ import torch
 from torchvision import datasets, transforms
 
 # Make sure b3d.py, detect.py, and utils/ are importable from the same directory
-sys.path.insert(0, str(Path(__file__).parent))
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 from detect import detect_backdoor, print_report
 from utils.tools import load_model as _utils_load_model, get_normalizer, get_dataset
 
@@ -425,12 +426,12 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--model_dir",
-        default=r"E:\workspace\hard-label-detection\models\cifar10\target",
+        default=str(SCRIPT_DIR / "models" / "cifar10" / "target"),
         help="Root directory containing attack-type sub-folders with .pt model files.",
     )
     p.add_argument(
         "--data_root",
-        default=r"E:\workspace\hard-label-detection\data",
+        default=str(SCRIPT_DIR / "data"),
         help="Directory containing the dataset folder.",
     )
     p.add_argument(
